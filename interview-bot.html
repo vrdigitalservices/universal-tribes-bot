@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .chat-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f4f4f4;
+        }
+        .chat-bubble {
+            max-width: 70%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            clear: both;
+        }
+        .bot {
+            background-color: #e0e0e0;
+            float: left;
+        }
+        .user {
+            background-color: #0084ff;
+            color: white;
+            float: right;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background: #ddd;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin-left: 10px;
+            border: none;
+            background-color: #0084ff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chat-container">
+        <div class="chat-bubble bot" id="bot-message">Welcome! I will guide you through a short interview. What's your full name?</div>
+    </div>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type your response here...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        const questions = [
+            "What's your full name?",
+            "Please provide your email address.",
+            "What is your phone number?",
+            "Which college or university are you currently attending?",
+            "What is your educational qualification?",
+            "Which city are you from?",
+            "Tell us something about yourself.",
+            "Do you have any prior experience in HR? (Yes/No)",
+            "Why are you interested in this HR internship at Universal Tribes?",
+            "Are you available for the next 45 days?"
+        ];
+
+        let currentQuestion = 1;
+        const chatContainer = document.getElementById("chat-container");
+
+        function sendMessage() {
+            const userInput = document.getElementById("user-input");
+            const message = userInput.value.trim();
+            if (message === "") return;
+
+            // Show user message
+            const userBubble = document.createElement("div");
+            userBubble.className = "chat-bubble user";
+            userBubble.textContent = message;
+            chatContainer.appendChild(userBubble);
+
+            userInput.value = "";
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            setTimeout(() => {
+                if (currentQuestion < questions.length) {
+                    const botBubble = document.createElement("div");
+                    botBubble.className = "chat-bubble bot";
+                    botBubble.textContent = questions[currentQuestion];
+                    chatContainer.appendChild(botBubble);
+                    currentQuestion++;
+                } else {
+                    const botBubble = document.createElement("div");
+                    botBubble.className = "chat-bubble bot";
+                    botBubble.textContent = "Thank you for your responses! We'll get back to you soon.";
+                    chatContainer.appendChild(botBubble);
+                }
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 500);
+        }
+    </script>
+</body>
+</html>
